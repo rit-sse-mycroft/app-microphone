@@ -5,8 +5,8 @@ class Microphone < Mycroft::Client
   attr_accessor :verified
 
   def initialize
-    @key = '/path/to/key'
-    @cert = '/path/to/cert'
+    @key = ''
+    @cert = ''
     @manifest = './app.json'
     @verified = false
   end
@@ -21,14 +21,15 @@ class Microphone < Mycroft::Client
     if parsed[:type] == 'APP_MANIFEST_OK' || parsed[:type] == 'APP_MANIFEST_FAIL'
       check_manifest(parsed)
       @verified = true
+      query('stt', 'request_stt', {})
       # we should send our grammer here
       
-    elsif parsed[:type] == 'MSG_QUERY' and parsed[:action] == "stream request"
-      clientIp = parsed[:data]["ip"]
-      clientPort = parsed[:data]["port"]
+    elsif parsed[:type] == 'MSG_QUERY_SUCCESS' and parsed[:action] == "stream request"
+      client_ip = parsed[:data]['ret']["ip"]
+      client_port = parsed[:data]['ret']["port"]
 
       # run vlc UDP using the client IP and Port
-      `vlc dshow:// --sout=#transcode{vcodec=none,acodec=mp3,ab=128,channels=2,samplerate=44100}:udp{dst=#{clientIp}:#{clientPort}}`
+      `vlc dshow:// --sout=#transcode{vcodec=none,acodec=mp3,ab=128,channels=2,samplerate=44100}:udp{dst=#{client_ip}:#{client_port}}`
     end
 
   end
