@@ -3,8 +3,10 @@
     "name": "microphone",
     "displayName": "",
     "instanceId": "",
-    "capabilities": {},
+    "capabilities": {
+      "microphone": "0.1"
+    },
     "API": "0",
-    "description": "",
+    "description": "Microphone to take in audio",
     "dependencies": {}
 }
