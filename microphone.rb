@@ -24,7 +24,7 @@ class Microphone < Mycroft::Client
       query('stt', 'request_stt', {})
       # we should send our grammer here
       
-    elsif parsed[:type] == 'MSG_QUERY_SUCCESS' and parsed[:action] == "stream request"
+    elsif parsed[:type] == 'MSG_QUERY_SUCCESS'
       client_ip = parsed[:data]['ret']["ip"]
       client_port = parsed[:data]['ret']["port"]
 
