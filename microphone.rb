@@ -20,14 +20,15 @@ class Microphone < Mycroft::Client
       query('stt', 'request_stt', {})
       # we should send our grammer here
       
-    elsif parsed[:type] == 'MSG_QUERY_SUCCESS'
-      client_ip = parsed[:data]['ret']["ip"]
-      client_port = parsed[:data]['ret']["port"]
+    elsif parsed[:type] == 'MSG_QUERY'
+      client_ip = parsed[:data]['data']["ip"]
+      client_port = parsed[:data]['data']["port"]
 
       # run vlc UDP using the client IP and Port
       `ffmpeg -ac 1 -f dshow -i audio="Microphone (Cirrus Logic CS4206B (AB 40))" -ar 16000 -acodec pcm_s16le -f rtp rtp://#{client_ip}:#{client_port}`
+    elsif parsed[:type] == 'APP_DEPENDENCY'
+      up
     end
-
   end
 
   def on_end
