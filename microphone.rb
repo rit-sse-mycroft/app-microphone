@@ -26,7 +26,7 @@ class Microphone < Mycroft::Client
       client_port = parsed[:data]['data']["port"]
 
       # run vlc UDP using the client IP and Port
-      `ffmpeg -ac 1 -f dshow -i audio="Microphone (Cirrus Logic CS4206B (AB 40))" -ar 16000 -acodec pcm_s16le -f rtp rtp://#{client_ip}:#{client_port}`
+      `ffmpeg -ac 1 -f dshow -i audio="YOUR MICROPHONE" -ar 16000 -acodec pcm_s16le -f rtp rtp://#{client_ip}:#{client_port}`
     elsif parsed[:type] == 'APP_DEPENDENCY'
       up
     end
