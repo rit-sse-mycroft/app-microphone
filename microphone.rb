@@ -4,11 +4,12 @@ class Microphone < Mycroft::Client
 
   attr_accessor :verified
 
-  def initialize
+  def initialize(host, port)
     @key = ''
     @cert = ''
     @manifest = './app.json'
     @verified = false
+    super
   end
 
   def connect
@@ -19,7 +20,7 @@ class Microphone < Mycroft::Client
     if parsed[:type] == 'APP_MANIFEST_OK' || parsed[:type] == 'APP_MANIFEST_FAIL'
       query('stt', 'request_stt', {})
       # we should send our grammer here
-      
+
     elsif parsed[:type] == 'MSG_QUERY'
       client_ip = parsed[:data]['data']["ip"]
       client_port = parsed[:data]['data']["port"]
