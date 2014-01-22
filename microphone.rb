@@ -17,11 +17,7 @@ class Microphone < Mycroft::Client
   end
 
   def on_data(parsed)
-    if parsed[:type] == 'APP_MANIFEST_OK' || parsed[:type] == 'APP_MANIFEST_FAIL'
-      query('stt', 'request_stt', {})
-      # we should send our grammer here
-
-    elsif parsed[:type] == 'MSG_QUERY'
+    if parsed[:type] == 'MSG_QUERY'
       client_ip = parsed[:data]['data']["ip"]
       client_port = parsed[:data]['data']["port"]
 
