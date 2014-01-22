@@ -1,12 +1,12 @@
 {
     "version": "0.0.1",
     "name": "microphone",
-    "displayName": "",
+    "displayName": "That hip Microphone",
     "instanceId": "microphone1",
     "capabilities": {
       "microphone": "0.0.1"
     },
-    "API": "0",
+    "API": 0,
     "description": "Microphone to take in audio",
     "dependencies": {}
 }
