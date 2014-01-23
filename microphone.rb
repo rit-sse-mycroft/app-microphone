@@ -8,6 +8,7 @@ class Microphone < Mycroft::Client
     @key = ''
     @cert = ''
     @manifest = './app.json'
+    @generate_instance_ids = true
     @verified = false
     super
   end
