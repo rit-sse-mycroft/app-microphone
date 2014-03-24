@@ -1,5 +1,7 @@
 import mycroft
 import pyaudio
+import socket
+import threading
 
 class Microphone(mycroft.App):
 
@@ -14,16 +16,19 @@ class Microphone(mycroft.App):
     def on_msg_query(self, event_name, body):
         client_ip = body['data']['ip']
         port = body['data']['port']
-        audio_client = socket.create_connection((client_ip, port))
-        thread = threading.Thread(target=get_audio_in, args=[audio_client])
+        audio_client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        thread = threading.Thread(target=self.get_audio_in, args=[audio_client, client_ip, port])
         thread.start()
 
+    @mycroft.on('error')
+    def on_error(self, event_name, e):
+        print(e)
 
-    def get_audio_in(self, client):
+    def get_audio_in(self, client, ip, port):
         CHUNK = 1024
         FORMAT = pyaudio.paInt16
-        CHANNELS = 2
-        RATE = 44100
+        CHANNELS = 1
+        RATE = 16000
 
         p = pyaudio.PyAudio()
 
@@ -36,10 +41,11 @@ class Microphone(mycroft.App):
         )
 
         try:
+            self.logger.info('Sending Audio')
             while True:
                 try:
                     data = stream.read(CHUNK)
-                    client.send(data)
+                    client.sendto(data, (ip, port))
                 except ConnectionResetError:
                     break
 
