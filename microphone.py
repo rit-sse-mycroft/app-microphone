@@ -9,11 +9,11 @@ class Microphone(mycroft.App):
         self.generate_instance_ids = True
 
     @mycroft.on('APP_DEPENDENCY')
-    def on_app_dependency(self, event_name, body):
+    def on_app_dependency(self, body):
         self.up()
 
     @mycroft.on('MSG_QUERY')
-    def on_msg_query(self, event_name, body):
+    def on_msg_query(self, body):
         client_ip = body['data']['ip']
         port = body['data']['port']
         audio_client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -21,7 +21,7 @@ class Microphone(mycroft.App):
         thread.start()
 
     @mycroft.on('error')
-    def on_error(self, event_name, e):
+    def on_error(self, e):
         print(e)
 
     def get_audio_in(self, client, ip, port):
