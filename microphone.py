@@ -1,6 +1,7 @@
 import mycroft
 import pyaudio
 import socket
+import sys
 import threading
 
 class Microphone(mycroft.App):
@@ -60,5 +61,7 @@ if __name__ == '__main__':
     app = Microphone()
     app.start(
         'app.json',
-        'microphone'
+        'microphone',
+        host=sys.argv[1],
+        port=int(sys.argv[2])
     )
